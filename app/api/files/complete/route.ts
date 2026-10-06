@@ -9,8 +9,8 @@ import { ingest } from "@/lib/storage/ingest";
 import { assertSize, completeUploadSchema, parseOrThrow } from "@/lib/validation/files";
 import { toFileDTO } from "@/types/file";
 
-// Large files are moved part by part; raise this on plans that allow longer functions.
-export const maxDuration = 800;
+// 300 s is the Hobby plan maximum. On Pro you can raise it (up to 800) to allow bigger files.
+export const maxDuration = 300;
 
 /**
  * POST /api/files/complete  { pathname, filename?, folder?, contentType? }

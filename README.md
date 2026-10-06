@@ -342,7 +342,7 @@ Every error uses the same shape. Internal Telegram and MongoDB details are only 
    - Finishes uploads or deletes that were interrupted, for example by a function timeout.
 
    On Pro you can make it hourly.
-3. **Function duration is the real upper limit on file size.** `POST /api/files/complete` has `maxDuration = 800` and downloads have `300`. A file is moved to Telegram at roughly the speed of the Bot API (often 5–20 MB/s), so several hundred MB is practical. Files in the GB range may need a longer-running host. Lower `MAX_FILE_SIZE_MB` to match your plan.
+3. **Function duration is the real upper limit on file size.** Every route uses `maxDuration = 300`, the Hobby plan maximum. A file moves to Telegram at roughly the speed of the Bot API (often 5–20 MB/s, slower if Telegram rate-limits you), so a few hundred MB fits comfortably within 300 s. On Pro you can raise `maxDuration` in `app/api/files/complete/route.ts` to 800. Files in the GB range may need a longer-running host. Set `MAX_FILE_SIZE_MB` to match your plan; `500` is a safe value on Hobby.
 4. **Rate limiting** is in memory, which means each serverless instance keeps its own counters. That's fine as a basic guard. For a global limit, implement the `RateLimiter` interface in `lib/rate-limit.ts` with Redis (for example `@upstash/ratelimit`) and export that instance as `rateLimiter`.
 
 ---
